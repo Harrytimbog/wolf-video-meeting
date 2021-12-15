@@ -14,6 +14,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import chatContext, {controlMessageEnum} from './ChatContext';
 import ColorContext from './ColorContext';
 import SecondaryButton from '../atoms/SecondaryButton';
+import PrimaryButton from '../atoms/PrimaryButton';
 import TextInput from '../atoms/TextInput';
 import { PollContext } from './PollContext';
 
@@ -21,7 +22,7 @@ import { PollContext } from './PollContext';
 const HostControlView = () => {
   const {sendControlMessage} = useContext(chatContext);
   const {primaryColor} = useContext(ColorContext);
-  const { question, setQuestion, answers, setAnswers } = useContext(PollContext);
+  const { question, setQuestion, answers, setAnswers, isModalOpen, setIsModalOpen } = useContext(PollContext);
   return (
     <>
       <Text style={style.heading}>Host Controls</Text>
@@ -39,7 +40,7 @@ const HostControlView = () => {
           />
         </View>
         <Text style={style.heading}>Create a Poll</Text>
-        <View>
+        <View style={{marginTop: '20px'}}>
           <TextInput
             value={question}
             onChangeText={setQuestion}
@@ -51,11 +52,25 @@ const HostControlView = () => {
               <br />
               <TextInput
                 value={answer.option}
-                onChangeText={(value) => setAnswers([ ...answers.slice(0, i), { option: value, votes: 0 }, ...answers.slice(i + 1)])}
+                onChangeText={(value) =>
+                  setAnswers([
+                    ...answers.slice(0, i),
+                    {option: value, votes: 0},
+                    ...answers.slice(i + 1),
+                  ])
+                }
                 placeholder={`Poll Answer ${i + 1}`}
               />
             </div>
           ))}
+        </View>
+        <View style={style.btnContainer}>
+          <PrimaryButton
+            onPress={() => {
+              setIsModalOpen(true);
+            }}
+            text="Start Poll"
+          />
         </View>
       </View>
     </>

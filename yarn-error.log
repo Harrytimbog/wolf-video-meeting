@@ -1,0 +1,38 @@
+Arguments: 
+  /home/acer/.nvm/versions/node/v14.15.5/bin/node /home/acer/.nvm/versions/node/v14.15.5/bin/yarn
+
+PATH: 
+  ./bin:./node_modules/.bin:/anaconda3/bin:/home/acer/anaconda3/bin:/home/acer/.rbenv/shims:/home/acer/.rbenv/bin:./bin:./node_modules/.bin:/anaconda3/bin:/home/acer/anaconda3/bin:/home/acer/.nvm/versions/node/v14.15.5/bin:/home/acer/.rbenv/shims:/home/acer/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/local/sbin:/home/acer/chromedriver:/home/acer/geckodriver:/usr/local/sbin:/home/acer/chromedriver:/home/acer/geckodriver
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  14.15.5
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/home/acer/.cache/yarn/v6/npm-lodash-4.17.21-679591c564c3bffaae8454cf0b3df370c3d6911c-integrity/node_modules/lodash/fp/random.js' -> '/home/acer/code/Harrytimbog/Porfolio/agora-app-builder/node_modules/lodash/fp/random.js'
+
+npm manifest: 
+  {
+    "name": "agora-app-builder",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "agora-app-builder-cli",
+      "start:info": "agora-app-builder-cli --info"
+    },
+    "keywords": [],
+    "license": "MIT",
+    "dependencies": {
+      "agora-app-builder-cli": "1.1.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
