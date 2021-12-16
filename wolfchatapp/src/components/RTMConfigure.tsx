@@ -1,12 +1,12 @@
 /*
 ********************************************
  Copyright © 2021 Agora Lab, Inc., all rights reserved.
- AppBuilder and all associated components, source code, APIs, services, and documentation 
- (the “Materials”) are owned by Agora Lab, Inc. and its licensors. The Materials may not be 
- accessed, used, modified, or distributed for any purpose without a license from Agora Lab, Inc.  
- Use without a license or in violation of any license terms and conditions (including use for 
- any purpose competitive to Agora Lab, Inc.’s business) is strictly prohibited. For more 
- information visit https://appbuilder.agora.io. 
+ AppBuilder and all associated components, source code, APIs, services, and documentation
+ (the “Materials”) are owned by Agora Lab, Inc. and its licensors. The Materials may not be
+ accessed, used, modified, or distributed for any purpose without a license from Agora Lab, Inc.
+ Use without a license or in violation of any license terms and conditions (including use for
+ any purpose competitive to Agora Lab, Inc.’s business) is strictly prohibited. For more
+ information visit https://appbuilder.agora.io.
 *********************************************
 */
 import React, {useState, useContext, useEffect, useRef} from 'react';
@@ -17,6 +17,7 @@ import RtcContext from '../../agora-rn-uikit/src/RtcContext';
 import {messageStoreInterface} from './ChatContext';
 import {Platform} from 'react-native';
 import {backOff} from 'exponential-backoff';
+import { PollContext } from './PollContext';
 
 export enum mType {
   Control = '0',
@@ -43,6 +44,8 @@ const RtmConfigure = (props: any) => {
       return [...m, {ts: ts, uid: uid, msg: text}];
     });
   };
+
+  const { setQuestion, setAnswers, setIsModalOpen } = useContext(PollContext);
 
   const addMessageToPrivateStore = (
     uid: string,
@@ -205,6 +208,12 @@ const RtmConfigure = (props: any) => {
             text.slice(1) === controlMessageEnum.cloudRecordingUnactive
           ) {
             setRecordingActive(false);
+          } else if (text[1] === controlMessageEnum.initiatePoll) {
+            const [ question, answers ] = JSON.parse(text.slice(2));
+
+            setQuestion(question);
+            setAnswers(answers);
+            setIsModalOpen(true);
           }
         } else if (text[0] === mType.Normal) {
           addMessageToStore(uid, text, ts);
@@ -304,11 +313,18 @@ const RtmConfigure = (props: any) => {
       addMessageToPrivateStore(uid, mType.Normal + msg, ts, true);
     }
   };
-  const sendControlMessage = async (msg: string) => {
-    await (engine.current as RtmEngine).sendMessageByChannelId(
-      rtcProps.channel,
-      mType.Control + msg,
-    );
+  const sendControlMessage = async (msg: string, obj) => {
+    if (msg === '8') {
+      await(engine.current as RtmEngine).sendMessageByChannelId(
+        rtcProps.channel,
+        mType.Control + msg + JSON.stringify(obj),
+      );
+    } else {
+      await (engine.current as RtmEngine).sendMessageByChannelId(
+        rtcProps.channel,
+        mType.Control + msg,
+      );
+    }
   };
   const sendControlMessageToUid = async (msg: string, uid: number) => {
     let adjustedUID = uid;

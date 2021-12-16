@@ -47,7 +47,7 @@ const HostControlView = () => {
             placeholder="Poll Question"
           />
           <br />
-          {answers.map((answer, i) => (
+          {answers.map((answer: any, i: any) => (
             <div key={i}>
               <br />
               <TextInput
@@ -55,7 +55,7 @@ const HostControlView = () => {
                 onChangeText={(value) =>
                   setAnswers([
                     ...answers.slice(0, i),
-                    {option: value, votes: 0},
+                    { option: value, votes: 0 },
                     ...answers.slice(i + 1),
                   ])
                 }
@@ -68,8 +68,9 @@ const HostControlView = () => {
           <PrimaryButton
             onPress={() => {
               setIsModalOpen(true);
+              sendControlMessage(controlMessageEnum.initiatePoll, { question, answers });
             }}
-            text="Start Poll"
+            text={"Start Poll"}
           />
         </View>
       </View>

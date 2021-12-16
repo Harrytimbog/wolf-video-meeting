@@ -1,23 +1,31 @@
-import React, { createContext, useState } from "react";
+import { createContext } from 'react';
+import React, {useState} from 'react';
 
 export const PollContext = createContext();
 
 const PollProvider = ({ children }) => {
-  const [ question, setQuestion ] = useState('');
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
-  const [ answers, setAnswers ] = useState([
-    { options: '', votes: 0},
-    { options: '', votes: 0},
-    { options: '', votes: 0},
-    { options: '', votes: 0},
+  const [question, setQuestion] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [answers, setAnswers] = useState([
+    {option: '', votes: 0},
+    {option: '', votes: 0},
+    {option: '', votes: 0},
+    {option: '', votes: 0},
   ]);
 
   return (
-    <PollContext.Provider value={{ question, setQuestion, answers, setAnswers, isModalOpen, setIsModalOpen }}>
+    <PollContext.Provider
+      value={{
+        answers,
+        setAnswers,
+        question,
+        setQuestion,
+        isModalOpen,
+        setIsModalOpen,
+      }}>
       {children}
     </PollContext.Provider>
   );
-}
-
+};
 
 export default PollProvider;
